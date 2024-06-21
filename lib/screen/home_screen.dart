@@ -4,6 +4,8 @@ import 'package:ai_project/screen/home_card.dart';
 import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
 
+import '../model/home_type.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -42,7 +44,12 @@ class _HomeScreenState extends State<HomeScreen> {
         elevation: 1,
         backgroundColor: Colors.white24,
       ),
-      body: HomeCard(),
+      body: ListView(
+        padding: EdgeInsets.symmetric(
+            horizontal: mq.width * .04, vertical: mq.height * .015),
+        children: HomeType.values.map((e) => HomeCard(homeType: e)).toList(),
+      ),
+
     );
   }
 }

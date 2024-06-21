@@ -22,10 +22,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return  GetMaterialApp(
       title: appName,
       debugShowCheckedModeBanner: false,
       home: SplashScreen(),
+      theme: ThemeData(
+        appBarTheme: AppBarTheme(
+          color: Colors.grey[400],
+          elevation: 3,
+          titleTextStyle: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.w600,
+            color: Colors.grey[800]
+          )
+        )
+      ),
     );
   }
 }
