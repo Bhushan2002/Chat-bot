@@ -10,7 +10,7 @@ class PromptRepo {
     try {
       String url = 'https://api.vyro.ai/v1/imagine/api/generations';
       Map<String, dynamic> headers = {
-        'Authorization': 'Bearer $GeminiAPIKey'
+        'Authorization': 'Bearer vk-RBFjSUUhWa2BevUD3FHC2rUNJFk32R6tEgY0DECkQP4di00'
       };
 
       Map<String, dynamic> payload = {
@@ -33,7 +33,9 @@ class PromptRepo {
         log(response.data.runtimeType.toString());
         log(response.data.toString());
         Uint8List uint8List = Uint8List.fromList(response.data);
+        print(uint8List);
         return uint8List;
+
       } else {
         return null;
       }
@@ -42,4 +44,3 @@ class PromptRepo {
     }
   }
 }
-//Generate a Disney image of a princess with a prince

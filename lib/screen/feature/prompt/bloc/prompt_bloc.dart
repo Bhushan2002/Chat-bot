@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -30,7 +31,7 @@ class PromptBloc extends Bloc<PromptEvent, PromptState> {
   FutureOr<void> promptInitialEvent(
       PromptInitialEvent event, Emitter<PromptState> emit) async {
     Uint8List bytes = await File(
-        '/Users/akshitmadan/Desktop/midjourney_flutter_app/assets/file.png')
+        'assets/images/file.png')
         .readAsBytes();
     emit(PromptGeneratingImageSuccessState(bytes));
   }
