@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 
 class Message{
@@ -27,7 +28,7 @@ class Messages extends StatelessWidget {
           right: isUser ? 10: 100
       ),
       decoration: BoxDecoration(
-          color: isUser ? Colors.blueAccent : Colors.grey.shade400,
+          color: isUser ? Theme.of(context).primaryColor : Theme.of(context).focusColor,
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(10),
               bottomLeft: isUser ? Radius.circular(10): Radius.zero,
@@ -35,13 +36,42 @@ class Messages extends StatelessWidget {
               bottomRight: isUser ? Radius.zero : Radius.circular(10)
           )
       ),
-      child: Column(
+      child: isUser ? Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             message,
             style: TextStyle(fontSize: 16,color: isUser ? Colors.white: Colors.black),
           ),
+          Text(
+            date,
+            style: TextStyle(fontSize: 10,color: isUser ? Colors.white: Colors.black,),
+          )
+        ],
+      ) : Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          AnimatedTextKit(
+            animatedTexts: [
+              TypewriterAnimatedText(
+                message,
+                textStyle: const TextStyle(
+                  fontSize: 16,
+                  color: Colors.black
+                ),
+                speed: const Duration(milliseconds: 100),
+              ),
+            ],
+
+            totalRepeatCount: 1,
+            pause: const Duration(milliseconds: 0),
+            displayFullTextOnTap: true,
+            stopPauseOnTap: true,
+          ),
+          // Text(
+          //   message,
+          //   style: TextStyle(fontSize: 16,color: isUser ? Colors.white: Colors.black),
+          // ),
           Text(
             date,
             style: TextStyle(fontSize: 10,color: isUser ? Colors.white: Colors.black,),

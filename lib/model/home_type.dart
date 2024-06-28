@@ -40,6 +40,6 @@ extension MyHomeType on HomeType {
   VoidCallback get onTap => switch (this) {
     HomeType.aiChatBot => () => Get.to(() =>  ChatBotFeature()),
     HomeType.aiImage => () => Get.to(() =>  ImageFeature()),
-    HomeType.aiTranslator => () => Get.to(() =>  TranslationFeature()),
+    HomeType.aiTranslator => () => Get.to(() =>  Scaffold(appBar: AppBar(),body: Center(child: Text("soon",style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold))))),
   };
 }

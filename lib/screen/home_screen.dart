@@ -1,8 +1,12 @@
+import 'package:ai_project/helper/app_bar.dart';
+import 'package:ai_project/helper/cust_theme.dart';
 import 'package:ai_project/helper/global.dart';
 import 'package:ai_project/helper/pref.dart';
+import 'package:ai_project/helper/theme_provider.dart';
 import 'package:ai_project/screen/home_card.dart';
 import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 import '../model/home_type.dart';
 
@@ -24,26 +28,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     mq = MediaQuery.sizeOf(context);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          appName,
-          style: TextStyle(
-              color: Colors.blueGrey,
-              fontSize: 20,
-              fontWeight: FontWeight.w500),
-        ),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.brightness_6, color: Colors.blueGrey),
-          ),
-        ],
-        elevation: 1,
-        backgroundColor: Colors.white24,
-      ),
+      backgroundColor: Theme.of(context).backgroundColor,
+      appBar: customAppBar(context, appName),
       body: ListView(
         padding: EdgeInsets.symmetric(
             horizontal: mq.width * .04, vertical: mq.height * .015),

@@ -1,9 +1,12 @@
+import 'package:ai_project/helper/cust_theme.dart';
 import 'package:ai_project/helper/global.dart';
 import 'package:ai_project/helper/pref.dart';
+import 'package:ai_project/helper/theme_provider.dart';
 import 'package:ai_project/screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,7 +15,10 @@ void main() async {
   await SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(create: (context)=> ThemeProvider(),
+    child:  const MyApp(),),
+     );
 }
 
 getApplicationDocumentsDirectory() {}
@@ -27,17 +33,8 @@ class MyApp extends StatelessWidget {
       title: appName,
       debugShowCheckedModeBanner: false,
       home: SplashScreen(),
-      theme: ThemeData(
-        appBarTheme: AppBarTheme(
-          color: Colors.grey[400],
-          elevation: 3,
-          titleTextStyle: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.w600,
-            color: Colors.grey[800]
-          )
-        )
-      ),
+      themeMode: ThemeMode.system,
+      theme: Provider.of<ThemeProvider>(context).themeDataStyle,
     );
   }
 }

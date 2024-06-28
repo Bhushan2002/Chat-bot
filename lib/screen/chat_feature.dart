@@ -2,7 +2,9 @@ import 'package:ai_project/helper/global.dart';
 import 'package:flutter/material.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
+import '../helper/theme_provider.dart';
 import '../model/message.dart';
 
 class ChatBotFeature extends StatefulWidget {
@@ -11,7 +13,7 @@ class ChatBotFeature extends StatefulWidget {
   State<ChatBotFeature> createState() => _ChatBotFeatureState();
 }
 class _ChatBotFeatureState extends State<ChatBotFeature> {
-  TextEditingController _userInput =TextEditingController();
+  TextEditingController _userInput = TextEditingController();
   static const apiKey = GeminiAPIKey;
   final model = GenerativeModel(model: 'gemini-pro', apiKey: apiKey);
   final List<Message> _messages = [];
@@ -19,19 +21,45 @@ class _ChatBotFeatureState extends State<ChatBotFeature> {
     final message = _userInput.text;
     setState(() {
       _messages.add(Message(isUser: true, message: message, date: DateTime.now()));
+      _userInput.text = " ";
     });
     final content = [Content.text(message)];
     final response = await model.generateContent(content);
     setState(() {
       _messages.add(Message(isUser: false, message: response.text?? "", date: DateTime.now()));
-      _userInput.text = "";
+
     });
+
   }
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
-      appBar: AppBar(title: Text("AI Chatbot"),centerTitle: true,),
+      backgroundColor: Theme.of(context).backgroundColor,
+      appBar: AppBar(
+        title:  Text(
+          appName,
+          style: TextStyle(
+              color: Theme.of(context).dividerColor,
+              fontSize: 20,
+              fontWeight: FontWeight.w500),
+        ),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {
+              setState(() {
+                themeProvider.changeTheme();
+              });
+
+            },
+            icon: const Icon(Icons.brightness_6, color: Colors.blueGrey),
+          ),
+        ],
+        elevation: 1,
+        backgroundColor: Theme.of(context).primaryColor.withOpacity(0.2),
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -44,12 +72,12 @@ class _ChatBotFeatureState extends State<ChatBotFeature> {
                 onTapOutside: (e) => FocusScope.of(context).unfocus(),
                 decoration: InputDecoration(
                     fillColor: Theme.of(context).scaffoldBackgroundColor,
-                    filled: true,
+                    filled: false,
                     isDense: true,
                     hintText: 'Ask me anything you want...',
                     hintStyle: TextStyle(fontSize: 14),
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(50)))),
+                        borderRadius: BorderRadius.all(Radius.circular(10)))),
               )),
 
           //for adding some space
@@ -58,9 +86,12 @@ class _ChatBotFeatureState extends State<ChatBotFeature> {
           //send button
           CircleAvatar(
             radius: 25,
-            backgroundColor: Colors.blueAccent,
+            backgroundColor: Theme.of(context).primaryColor,
             child: IconButton(
-              onPressed: sendMessage,
+              onPressed: (){
+                sendMessage();
+
+              },
               icon: const Icon(Icons.send_sharp,
                   color: Colors.white, size: 25),
             ),
@@ -82,39 +113,7 @@ class _ChatBotFeatureState extends State<ChatBotFeature> {
                     return Messages(isUser: message.isUser, message: message.message, date: DateFormat('HH:mm').format(message.date));
                   })
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                // child: Row(
-                //   children: [
-                //     Expanded(
-                //       flex: 15,
-                //       child: TextFormField(
-                //         style: TextStyle(color: Colors.white),
-                //         controller: _userInput,
-                //         decoration: InputDecoration(
-                //             border: OutlineInputBorder(
-                //               borderRadius: BorderRadius.circular(15),
-                //             ),
-                //             label: Text('Enter Your Message')
-                //         ),
-                //       ),
-                //     ),
-                //     Spacer(),
-                //     IconButton(
-                //         padding: EdgeInsets.all(12),
-                //         iconSize: 30,
-                //         style: ButtonStyle(
-                //             backgroundColor: MaterialStateProperty.all(Colors.black),
-                //             foregroundColor: MaterialStateProperty.all(Colors.white),
-                //             shape: MaterialStateProperty.all(CircleBorder())
-                //         ),
-                //         onPressed: (){
-                //           sendMessage();
-                //         },
-                //         icon: Icon(Icons.send))
-                //   ],
-                // ),
-              )
+              SizedBox(height: 74,)
             ],
           ),
         ),

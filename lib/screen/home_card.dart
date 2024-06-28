@@ -1,6 +1,8 @@
+import 'package:ai_project/helper/cust_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 
 import '../helper/global.dart';
 import '../model/home_type.dart';
@@ -12,11 +14,16 @@ class HomeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     Animate.restartOnHotReload = true;
 
     return Card(
-        color: Colors.blue.withOpacity(.2),
-        elevation: 0,
+        // color: Colors.blue.withOpacity(.4),
+      color: Theme.of(context).primaryColor.withOpacity(.5),
+        shadowColor: Colors.black,
+        semanticContainer: true,
+        // color: Theme.of(context).focusColor,
+        elevation: 3,
         margin: EdgeInsets.only(bottom: mq.height * .02),
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(20))),
@@ -72,6 +79,6 @@ class HomeCard extends StatelessWidget {
               ),
             ],
           ),
-        )).animate().fade(duration: 1.seconds, curve: Curves.easeIn);
+        )).animate().fade(duration: 2.seconds, curve: Curves.easeIn);
   }
 }
